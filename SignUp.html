@@ -162,6 +162,7 @@
               if (response.data.code === "200") {
                 console.log("註冊成功:", response.data);
                 alert("註冊成功");
+                window.location.replace("./Login.html");
               } else {
                 // 若註冊失敗，顯示後端返回的錯誤訊息
                 alert(response.data.msg);
