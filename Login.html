@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              clifford: "#da373d",
+            },
+          },
+        },
+      };
+    </script>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .content-auto {
+          content-visibility: auto;
+        }
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <!-- 引入 Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <section class="bg-gray-50 dark:bg-gray-900">
+      <div
+        class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+      >
+        <a
+          href="Login.html"
+          class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+        >
+          Chi_ExpenseTracker
+        </a>
+        <div
+          class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+        >
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1
+              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+            >
+              登入你的帳號
+            </h1>
+            <form id="loginForm" class="space-y-4 md:space-y-6" action="#">
+              <div>
+                <label
+                  for="email"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >電子郵件</label
+                >
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="name@company.com"
+                  required=""
+                />
+              </div>
+              <div>
+                <label
+                  for="password"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >密碼</label
+                >
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required=""
+                />
+              </div>
+              <!-- <div class="flex items-center justify-between">
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input
+                      id="remember"
+                      aria-describedby="remember"
+                      type="checkbox"
+                      class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                      required=""
+                    />
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label
+                      for="remember"
+                      class="text-gray-500 dark:text-gray-300"
+                      >記住我</label
+                    >
+                  </div>
+                </div>
+                <a
+                  href="#"
+                  class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+                  >忘記密碼?</a
+                >
+              </div> -->
+
+              <button
+                type="submit"
+                class="w-full text-white bg-blue-700 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                登入
+              </button>
+              <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                還沒有帳號嗎?
+                <a
+                  href="./SignUp.html"
+                  class="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                  >註冊</a
+                >
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // 監聽表單提交事件
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // 阻止表單默認提交行為
+
+          // 獲取用戶輸入的資訊
+          let account = document.getElementById("email").value;
+          let password = document.getElementById("password").value;
+
+          // 檢查帳號和密碼是否為空
+          if (account === "" || password === "") {
+            alert("請填入帳號及密碼");
+            return;
+          }
+
+          // 構建登入用的資料物件
+          let loginData = {
+            account: account,
+            password: password,
+          };
+
+          // 使用 Axios 發送登入請求
+          axios
+            .post(
+              "https://chiexpensetrackerservice.azurewebsites.net/Auth/Login",
+              loginData
+            )
+            .then((response) => {
+              console.log("Login response:", response.data);
+              // 處理後端返回的登入結果
+              if (response.data.code === "200") {
+                console.log("Login successful:", response.data);
+                // 將用戶資訊存儲在 localStorage 中
+                localStorage.setItem("userId", response.data.data.userId);
+                localStorage.setItem("userName", response.data.data.userName);
+                localStorage.setItem("account", response.data.data.account);
+                localStorage.setItem("role", response.data.data.role);
+                localStorage.setItem("token", response.data.data.token);
+                localStorage.setItem(
+                  "refreshToken",
+                  response.data.data.refresh
+                );
+                localStorage.setItem("isAuthorize", true); // 或者直接存儲 true，視需求而定
+                // 導航到應用的首頁或默認路由
+                window.location.replace("./Index.html");
+              } else {
+                // 若登入失敗，顯示後端返回的錯誤訊息
+                alert(response.data.msg);
+              }
+            })
+            .catch((error) => {
+              // 請求失敗時的錯誤處理
+              console.error("Login error:", error);
+              alert("Login failed");
+            });
+        });
+    </script>
+  </body>
+</html>
