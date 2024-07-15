@@ -94,7 +94,10 @@ function loadTransactions() {
     const transactionDate = new Date(transaction.createDate);
     return transactionDate >= startDate && transactionDate <= endDate;
   });
-
+  
+  // 按日期排序，從最新到舊的
+  filteredTransactions.sort((a, b) => new Date(b.createDate) - new Date(a.createDate));
+  
   let totalIncome = 0;
   let totalExpense = 0;
   filteredTransactions.forEach((transaction) => {
